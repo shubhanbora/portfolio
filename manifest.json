@@ -1,0 +1,28 @@
+{
+  "name": "Shubhan Bora - Portfolio",
+  "short_name": "Shubhan Portfolio",
+  "description": "Personal portfolio of Shubhan Bora - BCA Student and Aspiring Developer",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./public/Firefly 20241103003601.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "./public/Firefly 20241103003601.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["portfolio", "developer", "education"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "./"
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PWA Feature Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #0f172a; color: white; }
+        .test-item { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .pass { background: #22c55e; }
+        .fail { background: #ef4444; }
+        .pending { background: #f59e0b; }
+        button { padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 PWA Feature Test for Shubhan Portfolio</h1>
+    
+    <div id="tests">
+        <div class="test-item pending" id="manifest-test">📄 Manifest.json: Testing...</div>
+        <div class="test-item pending" id="sw-test">⚙️ Service Worker: Testing...</div>
+        <div class="test-item pending" id="https-test">🔒 HTTPS: Testing...</div>
+        <div class="test-item pending" id="install-test">📱 Install Prompt: Testing...</div>
+        <div class="test-item pending" id="offline-test">🌐 Offline Support: Testing...</div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <button onclick="testPWA()">🧪 Run PWA Tests</button>
+        <button onclick="openPortfolio()">🚀 Open Portfolio</button>
+        <button onclick="testInstall()">📱 Test Install</button>
+    </div>
+
+    <div id="results" style="margin-top: 20px;"></div>
+
+    <script>
+        function updateTest(id, status, message) {
+            const element = document.getElementById(id);
+            element.className = `test-item ${status}`;
+            element.textContent = message;
+        }
+
+        function testPWA() {
+            // Test 1: Manifest
+            fetch('/manifest.json')
+                .then(response => {
+                    if (response.ok) {
+                        updateTest('manifest-test', 'pass', '📄 Manifest.json: ✅ Found');
+                    } else {
+                        updateTest('manifest-test', 'fail', '📄 Manifest.json: ❌ Not found');
+                    }
+                })
+                .catch(() => {
+                    updateTest('manifest-test', 'fail', '📄 Manifest.json: ❌ Error loading');
+                });
+
+            // Test 2: Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistration()
+                    .then(registration => {
+                        if (registration) {
+                            updateTest('sw-test', 'pass', '⚙️ Service Worker: ✅ Registered');
+                        } else {
+                            updateTest('sw-test', 'fail', '⚙️ Service Worker: ❌ Not registered');
+                        }
+                    });
+            } else {
+                updateTest('sw-test', 'fail', '⚙️ Service Worker: ❌ Not supported');
+            }
+
+            // Test 3: HTTPS
+            if (location.protocol === 'https:' || location.hostname === 'localhost') {
+                updateTest('https-test', 'pass', '🔒 HTTPS: ✅ Secure connection');
+            } else {
+                updateTest('https-test', 'fail', '🔒 HTTPS: ❌ Not secure');
+            }
+
+            // Test 4: Install prompt
+            if (window.deferredPrompt || window.matchMedia('(display-mode: standalone)').matches) {
+                updateTest('install-test', 'pass', '📱 Install Prompt: ✅ Available');
+            } else {
+                updateTest('install-test', 'pending', '📱 Install Prompt: ⏳ May appear later');
+            }
+
+            // Test 5: Offline support
+            if ('serviceWorker' in navigator && 'caches' in window) {
+                updateTest('offline-test', 'pass', '🌐 Offline Support: ✅ Available');
+            } else {
+                updateTest('offline-test', 'fail', '🌐 Offline Support: ❌ Not available');
+            }
+        }
+
+        function openPortfolio() {
+            window.open('https://shubhanbora.github.io/portfolio/', '_blank');
+        }
+
+        function testInstall() {
+            const results = document.getElementById('results');
+            results.innerHTML = `
+                <h3>📱 Installation Instructions:</h3>
+                <p><strong>Desktop (Chrome/Edge):</strong></p>
+                <ol>
+                    <li>Open: <a href="https://shubhanbora.github.io/portfolio/" target="_blank">https://shubhanbora.github.io/portfolio/</a></li>
+                    <li>Look for install icon (⬇️) in address bar</li>
+                    <li>Click "Install" button</li>
+                    <li>App will open as desktop application</li>
+                </ol>
+                
+                <p><strong>Mobile (Android):</strong></p>
+                <ol>
+                    <li>Open portfolio in Chrome mobile browser</li>
+                    <li>Look for "Install App" button (bottom-right)</li>
+                    <li>Or use browser menu → "Add to Home Screen"</li>
+                    <li>Tap "Install" or "Add"</li>
+                </ol>
+                
+                <p><strong>Mobile (iPhone):</strong></p>
+                <ol>
+                    <li>Open portfolio in Safari</li>
+                    <li>Tap Share button (⬆️)</li>
+                    <li>Select "Add to Home Screen"</li>
+                    <li>Tap "Add"</li>
+                </ol>
+            `;
+        }
+
+        // Auto-run tests on load
+        window.onload = function() {
+            setTimeout(testPWA, 1000);
+        };
+    </script>
+</body>
+</html>

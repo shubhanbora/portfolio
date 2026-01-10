@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create App Icons</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .icon-generator { margin: 20px 0; }
+        canvas { border: 1px solid #ccc; margin: 10px; }
+        button { padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Portfolio App Icon Generator</h1>
+    <div class="icon-generator">
+        <canvas id="icon192" width="192" height="192"></canvas>
+        <canvas id="icon512" width="512" height="512"></canvas>
+        <br>
+        <button onclick="generateIcons()">Generate Icons</button>
+        <button onclick="downloadIcons()">Download Icons</button>
+    </div>
+
+    <script>
+        function generateIcons() {
+            generateIcon('icon192', 192);
+            generateIcon('icon512', 512);
+        }
+
+        function generateIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, size, size);
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#3b82f6');
+            gradient.addColorStop(1, '#8b5cf6');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Add border radius effect
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.2);
+            ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // Add text
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.15}px Inter, Arial, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Main text
+            ctx.fillText('S', size / 2, size * 0.4);
+            
+            // Subtitle
+            ctx.font = `${size * 0.08}px Inter, Arial, sans-serif`;
+            ctx.fillText('Portfolio', size / 2, size * 0.65);
+            
+            // Add decorative elements
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(size / 2, size * 0.4, size * 0.25, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        function downloadIcons() {
+            downloadCanvas('icon192', 'icon-192.png');
+            downloadCanvas('icon512', 'icon-512.png');
+        }
+
+        function downloadCanvas(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Auto generate on load
+        window.onload = generateIcons;
+    </script>
+</body>
+</html>
