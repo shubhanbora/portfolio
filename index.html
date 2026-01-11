@@ -3,27 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#3b82f6">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Shubhan Portfolio">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Shubhan Portfolio">
-    <meta name="msapplication-TileColor" content="#0f172a">
-    <meta name="msapplication-TileImage" content="/public/icon-192.png">
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json">
-    
-    <!-- iOS Icons -->
-    <link rel="apple-touch-icon" href="/public/icon-192.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/public/icon-192.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/public/icon-192.png">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/public/icon-192.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/public/icon-192.png">
-    
     <title>Shubhan Bora - Portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -416,98 +395,6 @@
     </footer>
 
     <script src="script.js"></script>
-    
-    <!-- PWA Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then((registration) => {
-                        console.log('SW registered: ', registration);
-                        
-                        // Check for updates
-                        registration.addEventListener('updatefound', () => {
-                            const newWorker = registration.installing;
-                            newWorker.addEventListener('statechange', () => {
-                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    // New content available, show update notification
-                                    showUpdateNotification();
-                                }
-                            });
-                        });
-                    })
-                    .catch((registrationError) => {
-                        console.log('SW registration failed: ', registrationError);
-                    });
-            });
-        }
-
-        // Show update notification
-        function showUpdateNotification() {
-            if (confirm('New version available! Reload to update?')) {
-                window.location.reload();
-            }
-        }
-
-        // Install prompt for PWA
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            showInstallButton();
-        });
-
-        function showInstallButton() {
-            // Create install button
-            const installBtn = document.createElement('button');
-            installBtn.innerHTML = '<i class="fas fa-download"></i> Install App';
-            installBtn.className = 'install-btn';
-            installBtn.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-                color: white;
-                border: none;
-                padding: 12px 20px;
-                border-radius: 25px;
-                font-weight: 600;
-                cursor: pointer;
-                z-index: 1000;
-                box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            `;
-            
-            installBtn.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    }
-                    deferredPrompt = null;
-                    installBtn.remove();
-                }
-            });
-            
-            document.body.appendChild(installBtn);
-            
-            // Auto hide after 10 seconds
-            setTimeout(() => {
-                if (installBtn.parentNode) {
-                    installBtn.remove();
-                }
-            }, 10000);
-        }
-
-        // Handle app installed
-        window.addEventListener('appinstalled', (evt) => {
-            console.log('App was installed');
-        });
-    </script>
 </body>
 </html>
 </body>
