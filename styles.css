@@ -294,20 +294,6 @@ body {
     filter: contrast(1.1) brightness(1.05);
 }
 
-.image-container::before {
-    content: '';
-    position: absolute;
-    top: 15%;
-    left: 25%;
-    width: 30%;
-    height: 30%;
-    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-    border-radius: 50%;
-    z-index: 2;
-    pointer-events: none;
-    transform: rotate(-20deg);
-}
-
 .image-container::after {
     content: '';
     position: absolute;
@@ -558,6 +544,19 @@ body {
     height: 100%;
     object-fit: cover;
     transition: all 0.3s ease;
+}
+
+.project-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f4f1e8 0%, #e2ddd0 100%);
+    color: #111111;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-align: center;
+    padding: 1rem;
 }
 
 .project-card:hover .project-image img {
