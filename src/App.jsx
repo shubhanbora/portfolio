@@ -8,7 +8,7 @@ import Projects from './components/Projects'
 import Gallery from './components/Gallery'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
-import Butterfly3D from './components/Butterfly3D'
+
 import { useTheme } from './hooks/useTheme'
 
 export default function App() {
@@ -23,7 +23,7 @@ export default function App() {
       <div className="scene-overlay" />
 
       {/* ── Global scroll-driven butterfly ── */}
-      <Butterfly3D />
+      
 
       {/* ── Page content ── */}
       <div className="page">
